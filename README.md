@@ -40,7 +40,9 @@ pip install "as-tagging[ml-graph]"   # + graph models (GraphConv / APPNP), needs
 > `[ml]` works on Python 3.11–3.13. `[ml-graph]` adds DGL, which currently has no
 > wheels for Python ≥ 3.13 and is unmaintained — the graph models are skipped
 > gracefully at runtime if DGL is absent. On macOS, XGBoost also needs the OpenMP
-> runtime: `brew install libomp`.
+> runtime (`brew install libomp`); and if you exercise the XGBoost and the
+> torch-based models in the same process, set `export KMP_DUPLICATE_LIB_OK=TRUE`
+> to avoid a libomp clash. Linux / CI are unaffected.
 
 The toolkit reads snapshots on demand from the **HuggingFace mirror** via
 `OnlineSnapshotProvider` (one month at a time), or from a local clone of this repo via
