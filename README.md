@@ -204,8 +204,7 @@ If you use this toolkit or the feature snapshots, please cite the paper:
 }
 ```
 
-And the archived release (Zenodo **concept DOI**, all versions). For a specific
-snapshot/release, cite the corresponding Zenodo *version DOI*:
+And the archived artifact on Zenodo (concept DOI):
 
 ```bibtex
 @software{chen_as_tagging,
@@ -214,7 +213,6 @@ snapshot/release, cite the corresponding Zenodo *version DOI*:
   publisher = {Zenodo},
   doi       = {10.5281/zenodo.22232206},
   url       = {https://doi.org/10.5281/zenodo.22232206},
-  note      = {Concept DOI (all versions). For a specific snapshot/release, please cite the corresponding Zenodo *version DOI*.},
 }
 ```
 
