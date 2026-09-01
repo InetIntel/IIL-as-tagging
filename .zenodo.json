@@ -1,0 +1,34 @@
+{
+  "title": "AS Tagging Toolkit (with monthly AS feature snapshots)",
+  "description": "<p>Open Python toolkit to assign, retrieve, and customize tags for Autonomous Systems (ASes) from monthly <em>AS feature snapshots</em> &mdash; per-ASN feature tables aggregating routing, DNS, scanning, geolocation, topology, and organization-mapping signals. This archive bundles the <code>as_tagging</code> package (also on PyPI) together with the released monthly feature-snapshot packages. Artifact of the paper <em>Rethinking and Facilitating How We Classify Autonomous Systems by Network Properties</em> (ACM IMC 2026).</p><p>Toolkit code is MIT-licensed. The AS feature-snapshot data under <code>data/</code> is distributed under Georgia Tech's Acceptable Use Agreement (see <code>data/LICENSE</code>).</p>",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "MIT",
+  "creators": [
+    { "name": "Chen, Zhiyi", "affiliation": "Georgia Institute of Technology" },
+    { "name": "Bischof, Zachary", "affiliation": "Georgia Institute of Technology" },
+    { "name": "Testart, Cecilia", "affiliation": "Georgia Institute of Technology" },
+    { "name": "Dainotti, Alberto", "affiliation": "Georgia Institute of Technology" }
+  ],
+  "keywords": [
+    "Autonomous Systems",
+    "Internet measurement",
+    "AS classification",
+    "BGP",
+    "network properties",
+    "AS tagging"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.1145/3777912.3839831",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-conferencepaper",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "https://huggingface.co/datasets/zchen798/as_feature_snapshot",
+      "relation": "isIdenticalTo",
+      "scheme": "url"
+    }
+  ]
+}

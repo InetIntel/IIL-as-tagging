@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.env
+
+# Editors / OS
+.DS_Store
+.ipynb_checkpoints/
+.vscode/
+.idea/
+
+# Local runtime caches / experiment scratch (NOT the published dataset)
+/ml_logs/
+/toolkit/local_data/
+*.log
+
+# NOTE: /data/ is intentionally tracked -- it holds the monthly feature-snapshot
+# packages that this repo publishes. Do not add it here.

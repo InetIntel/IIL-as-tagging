@@ -1,0 +1,44 @@
+cff-version: 1.2.0
+message: "If you use this toolkit or the AS feature snapshots, please cite the paper below; for a specific archived release, also cite the corresponding Zenodo version DOI."
+title: "AS Tagging Toolkit (with monthly AS feature snapshots)"
+type: software
+authors:
+  - family-names: Chen
+    given-names: Zhiyi
+    affiliation: "Georgia Institute of Technology"
+    email: zchen798@gatech.edu
+  - family-names: Bischof
+    given-names: Zachary
+    affiliation: "Georgia Institute of Technology"
+  - family-names: Testart
+    given-names: Cecilia
+    affiliation: "Georgia Institute of Technology"
+  - family-names: Dainotti
+    given-names: Alberto
+    affiliation: "Georgia Institute of Technology"
+repository-code: "https://github.com/InetIntel/IIL-as-tagging"
+license: MIT
+# doi: add the Zenodo concept DOI here once the archived release is minted.
+preferred-citation:
+  type: conference-paper
+  title: "Rethinking and Facilitating How We Classify Autonomous Systems by Network Properties"
+  authors:
+    - family-names: Chen
+      given-names: Zhiyi
+    - family-names: Bischof
+      given-names: Zachary
+    - family-names: Testart
+      given-names: Cecilia
+    - family-names: Dainotti
+      given-names: Alberto
+  collection-title: "Proceedings of the 2026 ACM Internet Measurement Conference (IMC '26)"
+  conference:
+    name: "ACM Internet Measurement Conference (IMC '26)"
+    city: Karlsruhe
+    country: DE
+  year: 2026
+  publisher:
+    name: ACM
+  isbn: "979-8-4007-2327-8/2026/10"
+  doi: "10.1145/3777912.3839831"
+  url: "https://doi.org/10.1145/3777912.3839831"

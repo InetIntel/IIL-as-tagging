@@ -1,0 +1,104 @@
+{
+    "Anycast": {
+        "Description": "AS uses anycast for at least one IP address.",
+        "Preset threshold": [],
+        "Logic": "anycast_v4_cnt > 0 OR anycast_v6_cnt > 0",
+        "Used atomic tags": [
+            "anycast_v4_cnt",
+            "anycast_v6_cnt"
+        ]
+    },
+    "Tranco 10k Host": {
+        "Description": "AS hosts domains in the Tranco top domains list.",
+        "Preset threshold": [],
+        "Logic": "openintel-tranco_topdomain_cnt > 0",
+        "Used atomic tags": [
+            "openintel-tranco_topdomain_cnt"
+        ]
+    },
+    "IPv6 Only": {
+        "Description": "AS originates IPv6 prefixes but no IPv4 prefixes.",
+        "Preset threshold": [],
+        "Logic": "pfx2as_/64_cnt > 0 AND pfx2as_/24_cnt == 0",
+        "Used atomic tags": [
+            "pfx2as_/64_cnt",
+            "pfx2as_/24_cnt"
+        ]
+    },
+    "No Eyeball": {
+        "Description": "AS has no inferred eyeballs (end users).",
+        "Preset threshold": [],
+        "Logic": "apnic-eyeball_eyeball_cnt == 0",
+        "Used atomic tags": [
+            "apnic-eyeball_eyeball_cnt"
+        ]
+    },
+    "No Transit": {
+        "Description": "AS does not provide IP transit at all.",
+        "Preset threshold": [],
+        "Logic": "For a given AS, it does not have any ASes as customers.",
+        "Used atomic tags": [
+            "caida-asrel_customer_cnt"
+        ]
+    },
+    "Sibling Transit": {
+        "Description": "AS only carries traffic internally within its organization to its sibling ASes.",
+        "Preset threshold": [],
+        "Logic": "For a given AS, all direct customer ASes are its sibling ASes.",
+        "Used atomic tags": [
+            "caida-asrel_customer_list",
+            "inetintel-as2org_sibling_list",
+            "caida-asrel_customer_cnt"
+        ]
+    },
+    "Public Transit": {
+        "Description": "AS provides IP transit service to ASes owned by other downstream organizations.",
+        "Preset threshold": [],
+        "Logic": "For a given AS, some direct customer ASes are not its sibling ASes.",
+        "Used atomic tags": [
+            "caida-asrel_customer_list",
+            "inetintel-as2org_sibling_list"
+        ]
+    },
+    "Any Presence": {
+        "Description": "Returns list of country codes where AS has any IP presence (IPv4 or IPv6).",
+        "Preset threshold": [],
+        "Logic": "Union of country codes from maxmind-geolite2_cc_v4_list and cc_v6_list.",
+        "Used atomic tags": [
+            "maxmind-geolite2_cc_v4_list",
+            "maxmind-geolite2_cc_v6_list"
+        ]
+    },
+    "Domestic": {
+        "Description": "Domestic AS. Defined by Gamero-Garrido, Alexander, et al. 'Quantifying nations' exposure to traffic observation and selective tampering.' PAM 2022.",
+        "Preset threshold": [
+            0.66
+        ],
+        "Logic": "An AS originates at least two-thirds of its IP addresses geolocated in the given country.",
+        "Used atomic tags": [
+            "maxmind-geolite2_cc_v4_list"
+        ]
+    },
+    "Major Access": {
+        "Description": "Major access AS. Defined by Carisimo, Esteban, et al. 'Identifying ASes of state-owned internet operators.' IMC 2021.",
+        "Preset threshold": [
+            0.05
+        ],
+        "Logic": "An AS originates more than 5% of the country's globally routed IP addresses.",
+        "Used atomic tags": [
+            "maxmind-geolite2_cc_v4_list"
+        ]
+    },
+    "Global Transit Nth-ranked": {
+        "Description": "Global transit significance ranking using Borda count aggregation over 5 transit metrics.",
+        "Preset threshold": [],
+        "Logic": "Aggregate Borda point rankings from: customer_cnt, cone_/24_cnt, cone_/64_cnt, global_hege_v4, global_hege_v6. Lower rank = more significant.",
+        "Used atomic tags": [
+            "caida-asrel_customer_cnt",
+            "caida-asrel_cone_/24_cnt",
+            "caida-asrel_cone_/64_cnt",
+            "iij-hege_global_hege_v4",
+            "iij-hege_global_hege_v6"
+        ]
+    }
+}

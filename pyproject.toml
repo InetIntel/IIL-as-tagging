@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "as-tagging"
+version = "1.0.0"
+description = "Open toolkit to assign, retrieve, and customize tags for Autonomous Systems from monthly AS feature snapshots."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+    { name = "Zhiyi Chen", email = "zchen798@gatech.edu" },
+    { name = "Zachary Bischof" },
+    { name = "Cecilia Testart" },
+    { name = "Alberto Dainotti" },
+]
+keywords = [
+    "autonomous systems",
+    "internet measurement",
+    "AS classification",
+    "BGP",
+    "network properties",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Topic :: Internet",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "numpy>=1.21",
+    "pandas>=1.5",
+    "pyarrow>=10.0",
+    "huggingface_hub>=0.20",
+    "dill>=0.3",
+]
+
+[project.optional-dependencies]
+ml = [
+    "xgboost>=1.7",
+    "torch==2.3.0",
+    "torchdata==0.7.1",
+    "dgl>=1.0",
+    "pydantic>=1.0",
+    "typing_extensions>=4.14.0",
+    "scikit-learn>=1.0",
+]
+notebooks = [
+    "ipykernel>=6.0",
+    "jupyter",
+    "matplotlib>=3.5",
+]
+
+[project.urls]
+Homepage = "https://github.com/InetIntel/IIL-as-tagging"
+Repository = "https://github.com/InetIntel/IIL-as-tagging"
+"Feature snapshots (HuggingFace)" = "https://huggingface.co/datasets/zchen798/as_feature_snapshot"
+Paper = "https://doi.org/10.1145/3777912.3839831"
+
+# Package code lives under toolkit/; the top-level data/ directory (monthly
+# feature-snapshot packages) is deliberately NOT part of the installable
+# distribution -- consumers get it from Zenodo / HuggingFace, or by cloning
+# the repo.
+[tool.setuptools.packages.find]
+where = ["toolkit"]
+include = ["as_tagging*"]
+
+[tool.setuptools.package-data]
+as_tagging = ["data/*.json"]

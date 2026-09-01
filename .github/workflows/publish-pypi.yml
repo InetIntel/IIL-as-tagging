@@ -1,0 +1,57 @@
+name: Publish to PyPI
+
+# Publishes the `as-tagging` package to PyPI when a GitHub Release is published.
+# Uses PyPI Trusted Publishing (OIDC) -- no API token stored in the repo.
+#
+# One-time setup on PyPI (https://pypi.org/manage/project/as-tagging/settings/publishing/):
+#   Publisher: GitHub Actions
+#   Owner: InetIntel   Repository: IIL-as-tagging
+#   Workflow name: publish-pypi.yml
+#   Environment name: pypi
+#
+# The Release tag also triggers the GitHub<->Zenodo integration (separate),
+# which archives the full repo and mints a new Zenodo version DOI.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Build sdist and wheel
+        run: |
+          python -m pip install --upgrade pip build
+          python -m build
+      - name: Check that the dataset did not get packaged
+        run: |
+          # Fail loudly if the top-level dataset dir or any snapshot tarball
+          # slipped into the sdist (the package's own as_tagging/data/*.json is fine).
+          if tar tzf dist/*.tar.gz | grep -E '^as_tagging-[^/]+/data/|as-feature-snapshot\.[0-9]'; then
+            echo "ERROR: dataset files found in the sdist" >&2
+            exit 1
+          fi
+          ls -lh dist/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write        # required for Trusted Publishing
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1

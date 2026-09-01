@@ -1,0 +1,18 @@
+# Source distribution contents.
+#
+# Keep the sdist small: the toolkit code + its JSON tag descriptions only.
+# The top-level data/ directory holds the monthly AS feature-snapshot packages
+# (hundreds of MB, growing every month) and must never be packaged.
+
+include README.md
+include LICENSE
+include pyproject.toml
+include toolkit/requirements.txt
+
+recursive-include toolkit/as_tagging *.py *.json
+
+# Safety nets -- never ship the dataset or notebooks in the sdist.
+prune data
+prune toolkit/notebooks
+global-exclude *.tar.gz
+global-exclude .DS_Store __pycache__ *.py[cod] *.ipynb_checkpoints
