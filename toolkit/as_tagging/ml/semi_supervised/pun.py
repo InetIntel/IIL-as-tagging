@@ -228,8 +228,7 @@ class PUNModel(BaseSemiSupervisedModel):
                 X_all_s = self._scaler.transform(X_all)
 
                 base_clf = LogisticRegression(
-                    penalty="l2",
-                    C=1.0,
+                    C=1.0,  # L2 is the default; not passing `penalty` avoids the sklearn 1.8+ deprecation
                     class_weight={0: 1.0, 1: pos_w},
                     max_iter=2000,
                     solver="lbfgs",
@@ -297,8 +296,7 @@ class PUNModel(BaseSemiSupervisedModel):
                             neg_tr = int((y_l[tr] == 0).sum())
                             pos_w_tr = max(1.0, neg_tr / max(pos_tr, 1))
                             clf = LogisticRegression(
-                                penalty="l2",
-                                C=1.0,
+                                C=1.0,  # L2 is the default; omit `penalty` (deprecated in sklearn 1.8+)
                                 class_weight={0: 1.0, 1: pos_w_tr},
                                 max_iter=2000,
                                 solver="lbfgs",
