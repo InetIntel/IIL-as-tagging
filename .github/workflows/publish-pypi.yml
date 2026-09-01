@@ -13,27 +13,36 @@ name: Publish to PyPI
 #
 # Monthly snapshot updates do NOT need a tag/release -- just commit to the repo.
 # Cut a `vX.Y.Z` tag only for a toolkit release, and bump pyproject.toml `version`
-# to match first (the build job enforces this). A GitHub Release whose tag is not
+# to match first (this workflow enforces it). A GitHub Release whose tag is not
 # `vX.Y.Z` (e.g. a dataset milestone) will not trigger a PyPI publish.
 
 on:
   push:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"
-  workflow_dispatch: {}       # manual run: builds + checks only, never publishes
+  workflow_dispatch: {}       # manual run: build + checks only, never publishes
 
 jobs:
-  build:
+  # Single job on purpose: build and publish run on the same runner so nothing
+  # has to be passed between jobs via actions/upload-artifact (which still
+  # targets Node 20). `environment: pypi` + id-token here are what Trusted
+  # Publishing needs.
+  build-and-publish:
     runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write        # required for Trusted Publishing
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
+
       - name: Build sdist and wheel
         run: |
           python -m pip install --upgrade pip build
           python -m build
+
       - name: Check that the dataset did not get packaged
         run: |
           # Fail loudly if the top-level dataset dir or any snapshot tarball
@@ -43,33 +52,20 @@ jobs:
             exit 1
           fi
           ls -lh dist/
+
       - name: Verify tag matches pyproject version
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           TAG="${GITHUB_REF_NAME#v}"
-          PKG="$(python -c "import tomllib,sys; print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])")"
+          PKG="$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])")"
           echo "tag=v$TAG  pyproject=$PKG"
           if [ "$TAG" != "$PKG" ]; then
             echo "::error::tag v$TAG does not match pyproject.toml version $PKG -- bump the version and re-tag"
             exit 1
           fi
-      - uses: actions/upload-artifact@v5
-        with:
-          name: dist
-          path: dist/
 
-  publish:
-    needs: build
-    if: startsWith(github.ref, 'refs/tags/v')   # never publish on workflow_dispatch
-    runs-on: ubuntu-latest
-    environment: pypi
-    permissions:
-      id-token: write        # required for Trusted Publishing
-    steps:
-      - uses: actions/download-artifact@v5
-        with:
-          name: dist
-          path: dist/
-      - uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Publish to PyPI
+        if: startsWith(github.ref, 'refs/tags/v')   # skipped on workflow_dispatch
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
           skip-existing: true
