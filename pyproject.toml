@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "as-tagging"
-version = "1.0.0"
+version = "1.0.1"
 description = "Open toolkit to assign, retrieve, and customize tags for Autonomous Systems from monthly AS feature snapshots."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -39,14 +39,23 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# XGBoost, MLP, and semi-supervised (PUN) tagging. Installable on Python 3.11-3.13.
 ml = [
     "xgboost>=1.7",
-    "torch==2.3.0",
-    "torchdata==0.7.1",
-    "dgl>=1.0",
+    "torch>=2.3",
+    "scikit-learn>=1.0",
     "pydantic>=1.0",
     "typing_extensions>=4.14.0",
-    "scikit-learn>=1.0",
+]
+# Adds the graph models (GraphConv / APPNP), which need DGL. DGL publishes no
+# wheels for Python >= 3.13 and is effectively unmaintained, so it is kept
+# separate -- everything in `ml` above works without it (graph models are
+# skipped at runtime when DGL is absent). If this fails to resolve, install DGL
+# from its own wheel index: https://www.dgl.ai/pages/start.html
+ml-graph = [
+    "as-tagging[ml]",
+    "dgl>=1.1",
+    "torchdata>=0.7",
 ]
 notebooks = [
     "ipykernel>=6.0",

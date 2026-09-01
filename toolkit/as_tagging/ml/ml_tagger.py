@@ -582,6 +582,14 @@ class MLTagger:
 
         # Run CV for each available model
         available_models = self._get_available_models()
+        if not available_models:
+            requested = ", ".join(self.requested_models) or "(none)"
+            raise RuntimeError(
+                f"No models can run: requested [{requested}] but none are available. "
+                f"Graph models (graphconv, appnp) need DGL plus topology features in "
+                f"the snapshot -- install DGL with `pip install as-tagging[ml-graph]` "
+                f"-- or request a feature-only model such as 'xgboost' or 'mlp'."
+            )
         cv_raw = {}
         
         for model_name in available_models:

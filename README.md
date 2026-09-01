@@ -32,9 +32,15 @@ Please open an issue to report bugs, request features, or flag dataset inaccurac
 to clone this repo or download the snapshot packages:
 
 ```bash
-pip install as-tagging          # core
-pip install "as-tagging[ml]"    # + supervised / semi-supervised ML tagging
+pip install as-tagging               # core (tag query / manual + custom tags)
+pip install "as-tagging[ml]"         # + XGBoost / MLP / semi-supervised (PUN) tagging
+pip install "as-tagging[ml-graph]"   # + graph models (GraphConv / APPNP), needs DGL
 ```
+
+> `[ml]` works on Python 3.11–3.13. `[ml-graph]` adds DGL, which currently has no
+> wheels for Python ≥ 3.13 and is unmaintained — the graph models are skipped
+> gracefully at runtime if DGL is absent. On macOS, XGBoost also needs the OpenMP
+> runtime: `brew install libomp`.
 
 The toolkit reads snapshots on demand from the **HuggingFace mirror** via
 `OnlineSnapshotProvider` (one month at a time), or from a local clone of this repo via
@@ -63,8 +69,9 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -U pip setuptools wheel
 
-pip install -e .            # toolkit in editable mode
-pip install -e ".[ml]"      # + ML extras
+pip install -e .                  # toolkit in editable mode
+pip install -e ".[ml]"            # + XGBoost / MLP / PUN
+pip install -e ".[ml-graph]"      # + graph models (DGL)
 ```
 
 ### Jupyter kernel for the venv
