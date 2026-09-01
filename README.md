@@ -36,16 +36,20 @@ pip install as-tagging          # core
 pip install "as-tagging[ml]"    # + supervised / semi-supervised ML tagging
 ```
 
-The toolkit pulls snapshot data on demand from the HuggingFace mirror via
-`OnlineSnapshotProvider` (see [Quick start](#quick-start)).
+The toolkit reads snapshots on demand from the **HuggingFace mirror** via
+`OnlineSnapshotProvider` (one month at a time), or from a local clone of this repo via
+`OfflineSnapshotProvider` (see [Quick start](#quick-start)).
 
-**The monthly feature snapshots themselves** (bulk / offline / archival use):
+**The monthly feature snapshots themselves:**
 
-- Grab individual months from **Zenodo** (versioned, citable) or the **HuggingFace**
-  mirror — recommended if you only need a few months.
-- `git clone` this repo for the full set plus version history. Note this pulls **every
-  historical month** (hundreds of MB, growing monthly), so prefer the mirrors unless you
-  want the complete local archive.
+- **This repo is the canonical source.** `git clone` it and every released month is under
+  `data/` as `IIL-as-feature-snapshot.<YYYY-MM>.tar.gz`; new months are committed here.
+  A full clone pulls every historical month (hundreds of MB, growing monthly).
+- Only need a few months? Download individual `data/*.tar.gz` straight from GitHub, or use
+  the **HuggingFace mirror** ([zchen798/as_feature_snapshot](https://huggingface.co/datasets/zchen798/as_feature_snapshot)),
+  which supports per-file download and is what `OnlineSnapshotProvider` uses.
+- **Zenodo** holds a frozen, citable copy of a tagged release for archival and citation —
+  not the day-to-day data source.
 
 ---
 
@@ -80,21 +84,21 @@ does not appear).
 
 ### 1) Load snapshot data
 
-From the HuggingFace mirror (no local data needed):
+From a local clone of this repo (the canonical source — `data/` holds every month):
+
+```python
+from as_tagging import ASTagging, OfflineSnapshotProvider
+
+provider = OfflineSnapshotProvider("/path/to/IIL-as-tagging/data")
+tagger = ASTagging(snapshot_provider=provider, date="2024-08")
+```
+
+Or from the HuggingFace mirror, which downloads one month at a time (no clone needed):
 
 ```python
 from as_tagging import ASTagging, OnlineSnapshotProvider
 
 provider = OnlineSnapshotProvider()          # zchen798/as_feature_snapshot
-tagger = ASTagging(snapshot_provider=provider, date="2024-08")
-```
-
-Or from a local copy of `data/` (e.g. a clone of this repo, or files pulled from Zenodo):
-
-```python
-from as_tagging import ASTagging, OfflineSnapshotProvider
-
-provider = OfflineSnapshotProvider("/path/to/as-tagging/data")
 tagger = ASTagging(snapshot_provider=provider, date="2024-08")
 ```
 
@@ -128,6 +132,10 @@ Under `toolkit/notebooks/`:
 
 ## The AS feature snapshots (`data/`)
 
+The `data/` directory in this repo is the canonical, continuously-updated home of the
+snapshots — each new month is committed here. The HuggingFace mirror tracks it; Zenodo
+gets a frozen copy per tagged release.
+
 Each month is packaged as `IIL-as-feature-snapshot.YYYY-MM.tar.gz`, containing (under a
 `YYYY-MM/` folder):
 
@@ -157,7 +165,8 @@ IIL-as-tagging/
 ├── toolkit/
 │   ├── as_tagging/         # the installable package
 │   ├── notebooks/          # example + analysis notebooks
-│   └── requirements.txt
+│   ├── requirements.txt
+│   └── LICENSE             # MIT (toolkit code)
 ├── data/
 │   ├── index.json          # release index (months, sizes, checksums, source dates)
 │   ├── README.md           # full feature catalog + methodology
@@ -165,7 +174,7 @@ IIL-as-tagging/
 │   └── IIL-as-feature-snapshot.YYYY-MM.tar.gz
 ├── pyproject.toml
 ├── CITATION.cff
-└── LICENSE                 # MIT (toolkit code)
+└── LICENSE                 # copy of toolkit/LICENSE (MIT), for GitHub/PyPI detection
 ```
 
 ---
@@ -196,7 +205,8 @@ here (concept DOI = all versions; version DOI for a specific release). -->
 
 ## License
 
-- **Toolkit code** (`toolkit/`, and the `as-tagging` PyPI package): MIT — see [`LICENSE`](LICENSE).
+- **Toolkit code** (`toolkit/`, and the `as-tagging` PyPI package): MIT — see
+  [`toolkit/LICENSE`](toolkit/LICENSE) (mirrored at the repo root as [`LICENSE`](LICENSE)).
 - **AS feature snapshot data** (`data/`): distributed under Georgia Tech's Acceptable Use
   Agreement — see [`data/LICENSE`](data/LICENSE). Any access and use of the data is subject
   to that agreement.

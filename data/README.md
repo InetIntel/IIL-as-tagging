@@ -5,10 +5,12 @@ geolocation, topology, and organization-mapping data sources. Generated with the
 methodology described in *Rethinking and Facilitating How We Classify Autonomous Systems
 by Network Properties* (IMC '26).
 
-This directory is the data half of the [AS Tagging Toolkit](../README.md). The toolkit's
-`OfflineSnapshotProvider` reads these packages directly; `OnlineSnapshotProvider` pulls
-the same data from the HuggingFace mirror
-([zchen798/as_feature_snapshot](https://huggingface.co/datasets/zchen798/as_feature_snapshot)).
+This directory is the data half of the [AS Tagging Toolkit](../README.md) and the
+**canonical home** of the snapshots — each new month is committed here. The toolkit's
+`OfflineSnapshotProvider` reads these packages directly. The HuggingFace mirror
+([zchen798/as_feature_snapshot](https://huggingface.co/datasets/zchen798/as_feature_snapshot))
+tracks this directory and backs `OnlineSnapshotProvider` (per-month download); Zenodo holds
+a frozen copy per tagged release, for citation.
 
 Please open an issue to report inaccuracies (include ASN, month, and feature name).
 

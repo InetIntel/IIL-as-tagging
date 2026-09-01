@@ -6,6 +6,7 @@
 
 include README.md
 include LICENSE
+include toolkit/LICENSE
 include pyproject.toml
 include toolkit/requirements.txt
 
