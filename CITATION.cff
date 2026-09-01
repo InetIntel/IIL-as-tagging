@@ -18,7 +18,7 @@ authors:
     affiliation: "Georgia Institute of Technology"
 repository-code: "https://github.com/InetIntel/IIL-as-tagging"
 license: MIT
-# doi: add the Zenodo concept DOI here once the archived release is minted.
+doi: "10.5281/zenodo.22232206"
 preferred-citation:
   type: conference-paper
   title: "Rethinking and Facilitating How We Classify Autonomous Systems by Network Properties"

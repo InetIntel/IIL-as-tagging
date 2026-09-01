@@ -2,7 +2,7 @@
   "dataset": "AS Feature Snapshots",
   "generated_at_utc": "2026-08-31T22:36:32.249898+00:00",
   "schema_version": "v1",
-  "concept_doi": null,
+  "concept_doi": "10.5281/zenodo.22232206",
   "record_id": null,
   "package_prefix": "IIL-as-feature-snapshot",
   "months": [

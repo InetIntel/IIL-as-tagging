@@ -16,10 +16,10 @@ Both are artifacts of the paper *Rethinking and Facilitating How We Classify Aut
 Systems by Network Properties* (IMC '26).
 
 - Paper (ACM DL): https://doi.org/10.1145/3777912.3839831
+- Archived release (Zenodo): https://doi.org/10.5281/zenodo.22232206
 - Feature snapshots also mirrored on HuggingFace: [zchen798/as_feature_snapshot](https://huggingface.co/datasets/zchen798/as_feature_snapshot)
 
-<!-- Zenodo DOI badge -- add once the archived release is minted:
-[![DOI](https://zenodo.org/badge/<REPO_ID>.svg)](https://doi.org/<CONCEPT_DOI>) -->
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22232206.svg)](https://doi.org/10.5281/zenodo.22232206)
 
 Please open an issue to report bugs, request features, or flag dataset inaccuracies
 (include ASN, month, and feature name).
@@ -197,9 +197,19 @@ If you use this toolkit or the feature snapshots, please cite the paper:
 }
 ```
 
-<!-- TODO: once the Zenodo archived release is minted, add the software citation
-here (concept DOI = all versions; version DOI for a specific release). -->
+And the archived release (Zenodo **concept DOI**, all versions). For a specific
+snapshot/release, cite the corresponding Zenodo *version DOI*:
 
+```bibtex
+@software{chen_as_tagging,
+  author    = {Chen, Zhiyi and Bischof, Zachary and Testart, Cecilia and Dainotti, Alberto},
+  title     = {AS Tagging Toolkit (with monthly AS feature snapshots)},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.22232206},
+  url       = {https://doi.org/10.5281/zenodo.22232206},
+  note      = {Concept DOI (all versions). For a specific snapshot/release, please cite the corresponding Zenodo *version DOI*.},
+}
+```
 
 ---
 
