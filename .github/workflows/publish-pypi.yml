@@ -1,0 +1,77 @@
+name: Publish to PyPI
+
+# Publishes the `as-tagging` package to PyPI when a v*.*.* tag is pushed.
+# Uses PyPI Trusted Publishing (OIDC) -- no API token stored in the repo.
+#
+# ONE-TIME SETUP on PyPI -- add a "pending publisher" at
+# https://pypi.org/manage/account/publishing/  with EXACTLY these values:
+#   PyPI Project Name : as-tagging         <- the pyproject.toml [project] name, NOT the repo name
+#   Owner             : InetIntel
+#   Repository name   : IIL-as-tagging
+#   Workflow name     : publish-pypi.yml   <- filename only, no path
+#   Environment name  : pypi
+#
+# Monthly snapshot updates do NOT need a tag/release -- just commit to the repo.
+# Cut a `vX.Y.Z` tag only for a toolkit release, and bump pyproject.toml `version`
+# to match first (this workflow enforces it). A GitHub Release whose tag is not
+# `vX.Y.Z` (e.g. a dataset milestone) will not trigger a PyPI publish.
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+  workflow_dispatch: {}       # manual run: build + checks only, never publishes
+
+jobs:
+  # Single job on purpose: build and publish run on the same runner so nothing
+  # has to be passed between jobs via actions/upload-artifact (which still
+  # targets Node 20). `environment: pypi` + id-token here are what Trusted
+  # Publishing needs.
+  build-and-publish:
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      contents: read         # required by actions/checkout
+      id-token: write        # required for Trusted Publishing
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Build sdist and wheel
+        run: |
+          python -m pip install --upgrade pip build pytest twine
+          python -m build
+
+      - name: Validate distributions and test the built wheel
+        run: |
+          python -m twine check dist/*
+          python -m pip install --force-reinstall dist/*.whl
+          python -m pytest -q
+
+      - name: Check that the dataset did not get packaged
+        run: |
+          # Fail loudly if the top-level dataset dir, locally filled snapshots,
+          # or any snapshot tarball slipped into the sdist (the package's own
+          # as_tagging/data/*.json is fine).
+          if tar tzf dist/*.tar.gz | grep -E '^as_tagging-[^/]+/(data|filled_data)/|as-feature-snapshot\.[0-9]'; then
+            echo "ERROR: dataset files found in the sdist" >&2
+            exit 1
+          fi
+          ls -lh dist/
+
+      - name: Verify tag matches pyproject version
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG="$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])")"
+          echo "tag=v$TAG  pyproject=$PKG"
+          if [ "$TAG" != "$PKG" ]; then
+            echo "::error::tag v$TAG does not match pyproject.toml version $PKG -- bump the version and re-tag"
+            exit 1
+          fi
+
+      - name: Publish to PyPI
+        if: startsWith(github.ref, 'refs/tags/v')   # skipped on workflow_dispatch
+        uses: pypa/gh-action-pypi-publish@release/v1

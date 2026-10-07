@@ -1,0 +1,81 @@
+[build-system]
+requires = ["setuptools>=77.0.3", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "as-tagging"
+version = "2.0.0"
+description = "Toolkit to assign, retrieve, and customize tags for Autonomous Systems from monthly AS feature snapshots."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "LicenseRef-IIL-AS-Tagging-AUA"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Zhiyi Chen", email = "zchen798@gatech.edu" },
+    { name = "Zachary Bischof" },
+    { name = "Cecilia Testart" },
+    { name = "Alberto Dainotti" },
+]
+keywords = [
+    "autonomous systems",
+    "internet measurement",
+    "AS classification",
+    "BGP",
+    "network properties",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Topic :: Internet",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "numpy>=1.21",
+    "pandas>=1.5",
+    "pyarrow>=10.0",
+    "huggingface_hub>=0.20",
+    "dill>=0.3",
+]
+
+[project.optional-dependencies]
+# XGBoost, MLP, and semi-supervised (PUN) tagging. Installable on Python 3.11-3.13.
+ml = [
+    "xgboost>=1.7",
+    "torch>=2.3",
+    "scikit-learn>=1.0",
+    "pydantic>=1.0",
+    "typing_extensions>=4.14.0",
+]
+# Adds the graph models (GraphConv / APPNP), which need DGL. DGL publishes no
+# wheels for Python >= 3.13 and is effectively unmaintained, so it is kept
+# separate -- everything in `ml` above works without it (graph models are
+# skipped at runtime when DGL is absent). If this fails to resolve, install DGL
+# from its own wheel index: https://www.dgl.ai/pages/start.html
+ml-graph = [
+    "as-tagging[ml]",
+    "dgl>=1.1",
+    "torchdata>=0.7",
+]
+notebooks = [
+    "ipykernel>=6.0",
+    "jupyter",
+    "matplotlib>=3.5",
+]
+
+[project.urls]
+Homepage = "https://github.com/InetIntel/IIL-as-tagging"
+Repository = "https://github.com/InetIntel/IIL-as-tagging"
+"Feature snapshots (HuggingFace)" = "https://huggingface.co/datasets/zchen798/as_feature_snapshot"
+Paper = "https://doi.org/10.1145/3777912.3839831"
+
+# Package code lives under toolkit/; the top-level data/ directory (monthly
+# feature-snapshot packages) is deliberately NOT part of the installable
+# distribution -- consumers get it from Zenodo / HuggingFace, or by cloning
+# the repo.
+[tool.setuptools.packages.find]
+where = ["toolkit"]
+include = ["as_tagging*"]
+
+[tool.setuptools.package-data]
+as_tagging = ["data/*.json"]

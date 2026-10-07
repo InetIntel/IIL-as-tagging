@@ -1,0 +1,2 @@
+# Parquet I/O for fill_caida_as_rel.py.
+pyarrow>=14.0.0

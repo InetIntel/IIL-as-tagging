@@ -1,0 +1,125 @@
+{
+    "Anycast": {
+        "Description": "AS uses anycast for at least one IP address.",
+        "Background": "Reimplements the intended semantics of BGP.tools's identically-named public tag using this toolkit's own feature snapshots, rather than reusing BGP.tools's logic directly -- BGP.tools does not publish its tagging methodology, so this is a transparent, documented reconstruction. See Chen, Bischof, Testart, and Dainotti, 'Rethinking and facilitating how we classify Autonomous Systems by network properties,' IMC 2026, Appendix G.2 (https://doi.org/10.1145/3777912.3839831).",
+        "Preset threshold": [],
+        "Logic": "anycast_v4_cnt > 0 OR anycast_v6_cnt > 0",
+        "Used atomic tags": [
+            "anycast_v4_cnt",
+            "anycast_v6_cnt"
+        ]
+    },
+    "Tranco 10k Host": {
+        "Description": "AS hosts domains in the Tranco top domains list.",
+        "Background": "Reimplements the intended semantics of BGP.tools's identically-named public tag using this toolkit's own feature snapshots, rather than reusing BGP.tools's logic directly -- BGP.tools does not publish its tagging methodology, so this is a transparent, documented reconstruction. See Chen, Bischof, Testart, and Dainotti, 'Rethinking and facilitating how we classify Autonomous Systems by network properties,' IMC 2026, Appendix G.2 (https://doi.org/10.1145/3777912.3839831).",
+        "Preset threshold": [],
+        "Logic": "openintel-tranco_topdomain_cnt > 0",
+        "Used atomic tags": [
+            "openintel-tranco_topdomain_cnt"
+        ]
+    },
+    "IPv6 Only": {
+        "Description": "AS originates IPv6 prefixes but no IPv4 prefixes.",
+        "Background": "Reimplements the intended semantics of BGP.tools's identically-named public tag using this toolkit's own feature snapshots, rather than reusing BGP.tools's logic directly -- BGP.tools does not publish its tagging methodology, so this is a transparent, documented reconstruction. See Chen, Bischof, Testart, and Dainotti, 'Rethinking and facilitating how we classify Autonomous Systems by network properties,' IMC 2026, Appendix G.2 (https://doi.org/10.1145/3777912.3839831).",
+        "Preset threshold": [],
+        "Logic": "pfx2as_/64_cnt > 0 AND pfx2as_/24_cnt == 0",
+        "Used atomic tags": [
+            "pfx2as_/64_cnt",
+            "pfx2as_/24_cnt"
+        ]
+    },
+    "No Eyeball": {
+        "Description": "AS has no inferred eyeballs (end users).",
+        "Background": "A simple complement of eyeball presence, introduced in Appendix I of the AS Tagging paper (Chen, Bischof, Testart, and Dainotti, IMC 2026, https://doi.org/10.1145/3777912.3839831) so ASes can be tagged along the transit and residential-access dimensions independently, instead of forcing them into the small number of mutually exclusive AS-type categories (e.g. CAIDA AS Classification, PeeringDB Network Type) that Section 4 of the paper shows fail to separate ASes with similar feature combinations.",
+        "Preset threshold": [],
+        "Logic": "apnic-eyeball_eyeball_cnt == 0",
+        "Used atomic tags": [
+            "apnic-eyeball_eyeball_cnt"
+        ]
+    },
+    "No Transit": {
+        "Description": "AS does not provide IP transit at all.",
+        "Background": "One of three transit-role tags (No Transit / Sibling Transit / Public Transit) introduced in Section 6 of the AS Tagging paper (Chen, Bischof, Testart, and Dainotti, IMC 2026, https://doi.org/10.1145/3777912.3839831). Motivation: existing practice infers transit status from CAIDA AS Classification's coarse Transit/Access category plus customer-AS information (e.g. Marcos, Prehn, Leal, Dainotti, Feldmann, and Barcellos, 'AS-Path Prepending: There Is No Rush Without a Push,' IMC 2020, https://doi.org/10.1145/3419394.3423642), which the paper argues misses many ASes that do provide transit. No Transit directly checks for the absence of any customer AS rather than relying on that coarse category.",
+        "Preset threshold": [],
+        "Logic": "For a given AS, it does not have any ASes as customers.",
+        "Used atomic tags": [
+            "caida-asrel_customer_cnt"
+        ]
+    },
+    "Sibling Transit": {
+        "Description": "AS only carries traffic internally within its organization to its sibling ASes.",
+        "Background": "One of three transit-role tags (No Transit / Sibling Transit / Public Transit) introduced in Section 6 of the AS Tagging paper (Chen, Bischof, Testart, and Dainotti, IMC 2026, https://doi.org/10.1145/3777912.3839831), to distinguish ASes that provide transit only within their own organization from those that sell it externally -- a distinction the paper argues coarse mutually-exclusive AS-type categories collapse. Example from the paper: AS20940 (Akamai) is the sole upstream provider for 15 sibling Akamai ASes, so all of its transit stays inside the organization.",
+        "Preset threshold": [],
+        "Logic": "For a given AS, all direct customer ASes are its sibling ASes. Computed directly from caida-asrel_customer_list + inetintel-as2org_sibling_list when the raw list is available; otherwise read from the precomputed caida-asrel_customer_all_sibling column (the published snapshot release does not include the raw list). None if neither is available.",
+        "Used atomic tags": [
+            "caida-asrel_customer_list",
+            "inetintel-as2org_sibling_list",
+            "caida-asrel_customer_all_sibling"
+        ]
+    },
+    "Public Transit": {
+        "Description": "AS provides IP transit service to ASes owned by other downstream organizations.",
+        "Background": "One of three transit-role tags (No Transit / Sibling Transit / Public Transit) introduced in Section 6 of the AS Tagging paper (Chen, Bischof, Testart, and Dainotti, IMC 2026, https://doi.org/10.1145/3777912.3839831), to identify ASes that sell IP transit to unrelated organizations. The paper reports that this tag identifies 3,854 transit ASes not captured by IPinfo's coarse ISP category, including data-center/colocation operators such as AS23686 (Equinix Connect) that IPinfo instead labels 'Hosting.'",
+        "Preset threshold": [],
+        "Logic": "For a given AS, some direct customer ASes are not its sibling ASes. Computed directly from caida-asrel_customer_list + inetintel-as2org_sibling_list when the raw list is available; otherwise read from the precomputed caida-asrel_customer_has_nonsibling column (the published snapshot release does not include the raw list). None if neither is available.",
+        "Used atomic tags": [
+            "caida-asrel_customer_list",
+            "inetintel-as2org_sibling_list",
+            "caida-asrel_customer_has_nonsibling"
+        ]
+    },
+    "Country Code": {
+        "Description": "ISO country code where the AS number was registered (RIR delegation record). Administrative attribute; distinct from geolocation-based Any Presence / Domestic.",
+        "Background": "Covers the jurisdiction-based notion of AS \"nationality\" -- where an AS is registered, rather than where its infrastructure or address space is physically located -- used in research with emphasis on legal/regulatory jurisdiction. For example, Trusin, Bertholdo, and Santanna, 'The Effect of the Russian-Ukrainian Conflict from the Perspective of Internet eXchanges,' CNSM 2022 (https://doi.org/10.23919/CNSM55787.2022.9964765), used this definition to track how many Russian and Ukrainian ASes became unreachable during the conflict, and for how long. See Appendix H of the AS Tagging paper (Chen, Bischof, Testart, and Dainotti, IMC 2026, https://doi.org/10.1145/3777912.3839831).",
+        "Preset threshold": [],
+        "Logic": "delegation_cc, uppercased; None if unknown.",
+        "Used atomic tags": [
+            "delegation_cc"
+        ]
+    },
+    "Any Presence": {
+        "Description": "Returns list of country codes where AS has any IP presence (IPv4 or IPv6).",
+        "Background": "Covers the geolocation-based definition of AS presence in a country -- any IP address geolocated there, regardless of concentration -- used in research on Internet shutdowns. For example, Padmanabhan, Filastò, Xynou, Raman, Middleton, Zhang, Madory, Roberts, and Dainotti, 'A Multi-Perspective View of Internet Censorship in Myanmar,' FOCI @ ACM SIGCOMM 2021 (https://doi.org/10.1145/3473604.3474562), defined the ASes \"potentially impacted\" by Myanmar's 2021 government-ordered Internet shutdown as those with any IP presence in the country, determined from IP geolocation data. See Appendix H of the AS Tagging paper (Chen, Bischof, Testart, and Dainotti, IMC 2026, https://doi.org/10.1145/3777912.3839831), which reproduces this definition as a composite tag.",
+        "Preset threshold": [],
+        "Logic": "Union of country codes from maxmind-geolite2_cc_v4_list and cc_v6_list.",
+        "Used atomic tags": [
+            "maxmind-geolite2_cc_v4_list",
+            "maxmind-geolite2_cc_v6_list"
+        ]
+    },
+    "Domestic": {
+        "Description": "Domestic AS. Defined by Gamero-Garrido, Alexander, et al. 'Quantifying nations' exposure to traffic observation and selective tampering.' PAM 2022. https://doi.org/10.1007/978-3-030-98785-5_29",
+        "Background": "The 2/3 threshold is that paper's own choice (Gamero-Garrido, Carisimo, Hao, Huffaker, Snoeren, and Dainotti, PAM 2022, https://doi.org/10.1007/978-3-030-98785-5_29, Best Dataset award) for classifying an AS's IP address space as domestic vs. foreign, which the authors then used to study what fraction of a country's transit links come from foreign providers vs. domestic customers -- i.e., a country's exposure to traffic observation by foreign parties. See Appendix H of the AS Tagging paper (Chen, Bischof, Testart, and Dainotti, IMC 2026, https://doi.org/10.1145/3777912.3839831), which also shows how raising the threshold to 90% changes the count of domestic ASes for several countries.",
+        "Preset threshold": [
+            0.66
+        ],
+        "Logic": "An AS originates at least two-thirds of its IP addresses geolocated in the given country.",
+        "Used atomic tags": [
+            "maxmind-geolite2_cc_v4_list"
+        ]
+    },
+    "Major Access": {
+        "Description": "Major access AS. Defined by Carisimo, Esteban, et al. 'Identifying ASes of state-owned internet operators.' IMC 2021. https://doi.org/10.1145/3487552.3487822",
+        "Background": "The 5% threshold is that paper's own choice (Carisimo, Gamero-Garrido, Snoeren, and Dainotti, IMC 2021, https://doi.org/10.1145/3487552.3487822) for one signal used to identify state-owned Internet operators within a country: an AS is a \"major access\" network there if it originates more than 5% of the country's globally routed IP address space (summed across geolocation datasets). See Appendix H of the AS Tagging paper (Chen, Bischof, Testart, and Dainotti, IMC 2026, https://doi.org/10.1145/3777912.3839831).",
+        "Preset threshold": [
+            0.05
+        ],
+        "Logic": "An AS originates more than 5% of the country's globally routed IP addresses.",
+        "Used atomic tags": [
+            "maxmind-geolite2_cc_v4_list"
+        ]
+    },
+    "Global Transit Nth-ranked": {
+        "Description": "Global transit significance ranking using Borda count aggregation over 5 transit metrics.",
+        "Background": "Introduced in Appendix G.3 of the AS Tagging paper (Chen, Bischof, Testart, and Dainotti, IMC 2026, https://doi.org/10.1145/3777912.3839831) to rank ASes by overall transit significance without relying on any single metric. The 5 atomic tags and the top_n=50 cutoff are the paper's own choices; Table 6 of the paper shows the resulting ranking reproduces the expected dominance of Tier-1 ASes while also surfacing significant non-Tier-1 transit providers, e.g. AS58453 (China Mobile) and AS4637 (Telstra).",
+        "Preset threshold": [],
+        "Logic": "Aggregate Borda point rankings from: customer_cnt, cone_/24_cnt, cone_/64_cnt, global_hege_v4, global_hege_v6. Lower rank = more significant.",
+        "Used atomic tags": [
+            "caida-asrel_customer_cnt",
+            "caida-asrel_cone_/24_cnt",
+            "caida-asrel_cone_/64_cnt",
+            "iij-hege_global_hege_v4",
+            "iij-hege_global_hege_v6"
+        ]
+    }
+}
