@@ -1,6 +1,6 @@
 {
   "dataset": "AS Feature Snapshots",
-  "generated_at_utc": "2026-10-07T15:10:41.050038+00:00",
+  "generated_at_utc": "2026-10-08T01:50:22.731522+00:00",
   "schema_version": "v1",
   "concept_doi": "10.5281/zenodo.22232206",
   "record_id": null,
@@ -29,7 +29,8 @@
     "2026-04",
     "2026-05",
     "2026-06",
-    "2026-07"
+    "2026-07",
+    "2026-08"
   ],
   "snapshots": [
     {
@@ -710,6 +711,35 @@
         "Merit Network Telescope": "2026-07"
       },
       "inputs_sha256": "354d5177ee9f6164be7ba7d1ae9d7fa1e0979bdcc4a44dfcd8704efa20abdebc"
+    },
+    {
+      "month": "2026-08",
+      "package": "IIL-as-feature-snapshot.2026-08.tar.gz",
+      "size": 10492183,
+      "sha256": "73b9cc5b4bf8704f1d83eedfbbc85873e355514d1f31de7cfe696965bffb1ac7",
+      "schema_version": "v1",
+      "num_asns": 121971,
+      "source_dates": {
+        "RIR delegation files": "2026-08-01",
+        "APNIC Eyeball": "2026-08",
+        "OpenIntel Active DNS Measurements: Tranco": "2026-08",
+        "RouteViews Prefix2AS from CAIDA": "2026-08",
+        "IIJ AS Hegemony IPv4": "2026-08",
+        "IIJ AS Hegemony IPv6": "2026-08",
+        "IIJ Traceroute Hegemony": "2026-08",
+        "Internet Intelligence Lab AS2Org": "2026-08",
+        "CAIDA AS Relationship": "20260801",
+        "MaxMind GeoLite2": "2026-07-28",
+        "Hypergiants' off-nets estimations": "2026-01-01",
+        "ISI ANT Censuses of the Internet Address Space": "2026-05-20",
+        "CAIDA Macroscopic Internet Topology Data Kit": "202508",
+        "PeeringDB daily snapshot data from CAIDA": "20260801",
+        "LACeS Anycast Census": "2026-08",
+        "Censys Universal Internet Bigquery data": "2026-08",
+        "M-Lab NDT Bigquery data": "2026-08",
+        "Merit Network Telescope": "2026-08"
+      },
+      "inputs_sha256": "d6c11247b7e19c1e488c0fb9b232073ce691e49d11db80bc380c01fc21f60187"
     }
   ]
 }
