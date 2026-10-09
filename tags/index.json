@@ -43,7 +43,8 @@
     "2026-04",
     "2026-05",
     "2026-06",
-    "2026-07"
+    "2026-07",
+    "2026-08"
   ],
   "releases": [
     {
@@ -1657,6 +1658,74 @@
         "n_eyeball": 40275,
         "n_raw_positive": 24559,
         "n_state_reset": 1052
+      },
+      "mobile_cellular": {
+        "label_version": "pun_v1_frozen_25seed_plus_audited_top99",
+        "labels_sha256": "ad410b07a6f106a085c2ac100cc2a03f6b920f61a0292a92eb8168459e7d0770",
+        "source_feature_snapshot": "2026-01",
+        "n_frozen_positive_asns": 124,
+        "policy": "frozen positive set is true; every other ASN is null",
+        "n_positive_asns_present": 124
+      }
+    },
+    {
+      "month": "2026-08",
+      "package": "as2tags.2026-08.json.gz",
+      "size": 856249,
+      "sha256": "6d3bf72a4713b62ddd88655cae46e3f40b628ea03f45c26901efc66c444275ba",
+      "n_asns": 121971,
+      "as_tagging_version": "2.0.0",
+      "code_version": "1f0aed8bb72f74f284d2dfb73ef9a2359d14146f",
+      "generator_code_version": "2ea4e2123fc89ddf1d43f14c22c8d8faa66f2bb5",
+      "source_feature_snapshot": {
+        "month": "2026-08",
+        "sha256": "73b9cc5b4bf8704f1d83eedfbbc85873e355514d1f31de7cfe696965bffb1ac7",
+        "package": "IIL-as-feature-snapshot.2026-08.tar.gz"
+      },
+      "tags": [
+        "Anycast",
+        "Tranco 10k Host",
+        "IPv6 Only",
+        "No Eyeball",
+        "No Transit",
+        "Sibling Transit",
+        "Public Transit",
+        "Country Code",
+        "Any Presence",
+        "Domestic",
+        "Major Access",
+        "Global Transit Nth-ranked",
+        "Residential Access",
+        "Mobile/Cellular"
+      ],
+      "tag_counts": {
+        "Anycast": 6537,
+        "Tranco 10k Host": 23637,
+        "IPv6 Only": 7380,
+        "No Eyeball": 81499,
+        "No Transit": 109205,
+        "Sibling Transit": 757,
+        "Public Transit": 12009,
+        "Country Code": 121971,
+        "Any Presence": 85651,
+        "Domestic": 76074,
+        "Major Access": 787,
+        "Global Transit Nth-ranked": 132,
+        "Residential Access": 24840,
+        "Mobile/Cellular": 124
+      },
+      "residential_access": {
+        "model_sha256": "5708bcdbe6907d76f491874709186a500ed43afdbb5b5cbe56e18a40a1934f98",
+        "model_snapshot": "2026-01",
+        "raw_threshold": 0.5,
+        "t_up": 0.7,
+        "t_down": 0.3,
+        "is_chain_anchor": false,
+        "prev_month_file": "as2tags.2026-07.json.gz",
+        "degraded_features": [],
+        "n_eyeball": 40472,
+        "n_raw_positive": 24522,
+        "n_state_reset": 1324
       },
       "mobile_cellular": {
         "label_version": "pun_v1_frozen_25seed_plus_audited_top99",
