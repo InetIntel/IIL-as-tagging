@@ -343,7 +343,7 @@ def domestic(tags, threshold=2/3):
 
     Threshold and definition from Gamero-Garrido, Carisimo, Hao, Huffaker,
     Snoeren, and Dainotti, "Quantifying Nations' Exposure to Traffic
-    Observation and Selective Tampering," PAM 2022 (Best Dataset award),
+    Observation and Selective Tampering," PAM 2022,
     https://doi.org/10.1007/978-3-030-98785-5_29, who used it to study what
     fraction of a country's transit links come from foreign vs. domestic
     providers. See AS Tagging paper Appendix H (module docstring for full

@@ -89,7 +89,7 @@
     },
     "Domestic": {
         "Description": "Domestic AS. Defined by Gamero-Garrido, Alexander, et al. 'Quantifying nations' exposure to traffic observation and selective tampering.' PAM 2022. https://doi.org/10.1007/978-3-030-98785-5_29",
-        "Background": "The 2/3 threshold is that paper's own choice (Gamero-Garrido, Carisimo, Hao, Huffaker, Snoeren, and Dainotti, PAM 2022, https://doi.org/10.1007/978-3-030-98785-5_29, Best Dataset award) for classifying an AS's IP address space as domestic vs. foreign, which the authors then used to study what fraction of a country's transit links come from foreign providers vs. domestic customers -- i.e., a country's exposure to traffic observation by foreign parties. See Appendix H of the AS Tagging paper (Chen, Bischof, Testart, and Dainotti, IMC 2026, https://doi.org/10.1145/3777912.3839831), which also shows how raising the threshold to 90% changes the count of domestic ASes for several countries.",
+        "Background": "The 2/3 threshold is that paper's own choice (Gamero-Garrido, Carisimo, Hao, Huffaker, Snoeren, and Dainotti, PAM 2022, https://doi.org/10.1007/978-3-030-98785-5_29) for classifying an AS's IP address space as domestic vs. foreign, which the authors then used to study what fraction of a country's transit links come from foreign providers vs. domestic customers -- i.e., a country's exposure to traffic observation by foreign parties. See Appendix H of the AS Tagging paper (Chen, Bischof, Testart, and Dainotti, IMC 2026, https://doi.org/10.1145/3777912.3839831), which also shows how raising the threshold to 90% changes the count of domestic ASes for several countries.",
         "Preset threshold": [
             0.66
         ],
