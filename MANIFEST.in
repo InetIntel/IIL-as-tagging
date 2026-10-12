@@ -14,7 +14,7 @@ recursive-include toolkit/as_tagging *.py *.json
 # Safety nets -- never ship the dataset or notebooks in the sdist.
 prune data
 prune filled_data
-prune tags
+prune predefined-tags
 prune scripts
 prune docs
 prune tests

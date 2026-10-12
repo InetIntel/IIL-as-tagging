@@ -4,11 +4,11 @@ AS Tagging provides monthly *AS feature snapshots* and a scientific toolkit for 
 
 This repository contains:
 
-| Path        | What                                                                                     |
-|-------------|------------------------------------------------------------------------------------------|
-| `toolkit/`  | The `as_tagging` Python package (also on PyPI), example notebooks                        |
-| `data/`     | Monthly AS feature-snapshot packages + `index.json`; each package includes its own schema metadata        |
-| `tags/`     | Monthly Appendix J per-ASN AS tags (`as2tags`), already computed from `data/`, + `index.json` |
+| Path               | What                                                                                               |
+|--------------------|----------------------------------------------------------------------------------------------------|
+| `toolkit/`         | The `as_tagging` Python package (also on PyPI), example notebooks                                  |
+| `data/`            | Monthly AS feature-snapshot packages + `index.json`; each package includes its own schema metadata |
+| `predefined-tags/` | Monthly Appendix J per-ASN predefined AS tags, already computed from `data/`, + `index.json`       |
 
 The Georgia Tech Acceptable Use Agreement in [`LICENSE`](LICENSE) applies to the
 entire repository, including its software, documentation, and data.
@@ -219,15 +219,15 @@ must not be redistributed as part of this repository. See
 
 ---
 
-## The AS tags (`tags/`)
+## The predefined AS tags (`predefined-tags/`)
 
 We publish the per-ASN tag catalog defined in Appendix J of our paper in
-`tags/`, one release per month (`as2tags.YYYY-MM.json.gz`), already computed
-from the corresponding `data/` snapshot. `tags/index.json` lists every released
+`predefined-tags/`, one release per month (`predefined-tags.YYYY-MM.json.gz`), already computed
+from the corresponding `data/` snapshot. `predefined-tags/index.json` lists every released
 month.
 
 **Full tag catalog, value semantics, file format, and methodology:** see
-[`tags/README.md`](tags/README.md).
+[`predefined-tags/README.md`](predefined-tags/README.md).
 
 ---
 
@@ -250,10 +250,10 @@ IIL-as-tagging/
 │   ├── index.json          # release index (months, sizes, checksums, source dates)
 │   ├── README.md           # full feature catalog + methodology
 │   └── IIL-as-feature-snapshot.YYYY-MM.tar.gz
-├── tags/
+├── predefined-tags/
 │   ├── index.json          # release index (months, checksums, tag catalog)
 │   ├── README.md           # full tag catalog, value semantics, and methodology
-│   └── as2tags.YYYY-MM.json.gz
+│   └── predefined-tags.YYYY-MM.json.gz
 ├── scripts/                # local reconstruction of omitted third-party fields
 ├── docs/
 │   └── data-sources/       # upstream terms and public-release treatment, per source

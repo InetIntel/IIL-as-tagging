@@ -1,4 +1,4 @@
-# AS tags (as2tags)
+# Predefined AS tags (predefined-tags)
 
 Monthly **per-ASN tag values** for every ASN in the corresponding month's AS
 feature snapshot.
@@ -6,11 +6,11 @@ feature snapshot.
 These tag values are published with the **[AS Tagging Toolkit](https://github.com/InetIntel/IIL-as-tagging)**
 (`pip install as-tagging`). The tag catalog is defined in **Appendix J** of the
 paper *Rethinking and Facilitating How We Classify Autonomous Systems by Network
-Properties* (ACM IMC 2026): 12 predefined composite tags, `Residential Access`,
+Properties* (ACM IMC 2026): 11 predefined composite tags, `Residential Access`,
 and `Mobile/Cellular`.
 
 - **Canonical source:** the GitHub repo [InetIntel/IIL-as-tagging](https://github.com/InetIntel/IIL-as-tagging)
-  — `tags/` holds every released month; new months are committed here.
+  — `predefined-tags/` holds every released month; new months are committed here.
 - **Upstream:** each month is derived from that same month's
   `data/IIL-as-feature-snapshot.<YYYY-MM>.tar.gz` — see [`../data/README.md`](../data/README.md).
 
@@ -19,32 +19,35 @@ and `Mobile/Cellular`.
 ```python
 import gzip, json
 
-with gzip.open("tags/as2tags.2026-07.json.gz", "rt", encoding="utf-8") as f:
+with gzip.open("predefined-tags/predefined-tags.2026-07.json.gz", "rt", encoding="utf-8") as f:
     doc = json.load(f)
 
-tags = doc["as2tags"]                       # {asn: {tag: value}}
+tags = doc["predefined-tags"]               # {asn: {tag: value}}
 tags["7018"]["Residential Access"]          # -> True
 tags["2516"]["Mobile/Cellular"]             # -> True
 tags["3356"]["Mobile/Cellular"]             # -> None (not labeled positive)
 tags["7018"]["Any Presence"]                # -> ["US", ...]
 ```
 
-`tags/index.json` lists every released month with its size, SHA-256, ASN count, and
+`predefined-tags/index.json` lists every released month with its size, SHA-256, ASN count, and
 per-tag counts (`tag_counts`), read from each file's own `metadata`.
 
-## The 12 predefined composite tags
+## The 11 predefined composite tags
 
 | Tag | Output type |
 | --- | --- |
 | Anycast, Tranco 10k Host, IPv6 Only, No Eyeball, No Transit, Sibling Transit, Public Transit | `true` / `false` |
-| Country Code | `"US"` / `null` (RIR delegation country) |
 | Any Presence, Domestic, Major Access | sorted `list[str]` of country codes (may be `[]`) |
 | Global Transit Nth-ranked | `int` / `null` (sparse — ~130 ASNs/month) |
 
-Defined in Appendix J of the paper. For these 12 predefined tags, every ASN
+Defined in Appendix J of the paper. For these 11 predefined tags, every ASN
 carries every tag key. A `null` value on a Boolean or list tag would mean the
 toolkit could not compute it that month; this does not occur in current releases.
 `Mobile/Cellular` uses `null` differently, as explained below.
+
+`Country Code` (the RIR delegation country) is not published here: it is an
+atomic tag, available directly as `delegation_cc` in each month's AS feature
+snapshot (see [`../data/README.md`](../data/README.md)).
 
 ## The `Residential Access` tag
 
@@ -89,7 +92,7 @@ semi-supervised PUN mobile/cellular experiment:
   negative examples used by the experiment are also published as `null`.
 - This initial version is static: it is not retrained or re-inferred separately
   for each month. All 124 positive ASNs occur in every currently published month
-  (2024-08 through 2026-07).
+  (2024-08 through 2026-08).
 
 The frozen artifact identity is:
 
@@ -103,7 +106,7 @@ size (`n_frozen_positive_asns`), the number present that month
 
 ## File format
 
-One gzipped JSON per month, `as2tags.<YYYY-MM>.json.gz`:
+One gzipped JSON per month, `predefined-tags.<YYYY-MM>.json.gz`:
 
 ```json
 {
@@ -117,7 +120,7 @@ One gzipped JSON per month, `as2tags.<YYYY-MM>.json.gz`:
     "residential_access": {
       "model_sha256": "5708bcdb...", "model_snapshot": "2026-01",
       "raw_threshold": 0.5, "t_up": 0.7, "t_down": 0.3,
-      "is_chain_anchor": false, "prev_month_file": "as2tags.2026-06.json.gz",
+      "is_chain_anchor": false, "prev_month_file": "predefined-tags.2026-06.json.gz",
       "degraded_features": [],
       "n_eyeball": 40275, "n_raw_positive": 24559, "n_state_reset": 1052
     },
@@ -128,14 +131,14 @@ One gzipped JSON per month, `as2tags.<YYYY-MM>.json.gz`:
       "policy": "frozen positive set is true; every other ASN is null"
     }
   },
-  "as2tags": {
-    "3356": {"Anycast": true, "Country Code": "US", "Any Presence": ["NL", "US"], "Global Transit Nth-ranked": 1, "Residential Access": false, "Mobile/Cellular": null, ...},
+  "predefined-tags": {
+    "3356": {"Anycast": true, "Any Presence": ["NL", "US"], "Global Transit Nth-ranked": 1, "Residential Access": false, "Mobile/Cellular": null, ...},
     ...
   }
 }
 ```
 
-Consumer: `json.load(gzip.open(path))["as2tags"]`.
+Consumer: `json.load(gzip.open(path))["predefined-tags"]`.
 
 ## License
 
