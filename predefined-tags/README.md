@@ -91,8 +91,8 @@ semi-supervised PUN mobile/cellular experiment:
   value must not be interpreted as a confirmed non-mobile label; the seed
   negative examples used by the experiment are also published as `null`.
 - This initial version is static: it is not retrained or re-inferred separately
-  for each month. All 124 positive ASNs occur in every currently published month
-  (2024-08 through 2026-08).
+  for each month. Each month's `metadata.mobile_cellular.n_positive_asns_present`
+  records how many of the 124 positive ASNs appear in that month's snapshot.
 
 The frozen artifact identity is:
 
