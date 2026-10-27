@@ -43,7 +43,8 @@
     "2026-05",
     "2026-06",
     "2026-07",
-    "2026-08"
+    "2026-08",
+    "2026-09"
   ],
   "releases": [
     {
@@ -1675,6 +1676,72 @@
         "n_eyeball": 40472,
         "n_raw_positive": 24522,
         "n_state_reset": 1324
+      },
+      "mobile_cellular": {
+        "label_version": "pun_v1_frozen_25seed_plus_audited_top99",
+        "labels_sha256": "ad410b07a6f106a085c2ac100cc2a03f6b920f61a0292a92eb8168459e7d0770",
+        "source_feature_snapshot": "2026-01",
+        "n_frozen_positive_asns": 124,
+        "policy": "frozen positive set is true; every other ASN is null",
+        "n_positive_asns_present": 124
+      }
+    },
+    {
+      "month": "2026-09",
+      "package": "predefined-tags.2026-09.json.gz",
+      "size": 778607,
+      "sha256": "2483cf9e93c6534e1551759d19c1767e4aedf994069d97bc0fa1bcee80218171",
+      "n_asns": 122308,
+      "as_tagging_version": "2.0.0",
+      "code_version": "b2edc183e3975e41ef4fc75aeeafca46d09b2ed3",
+      "generator_code_version": "3545c2d726f20d9c5949331db3ecad613aa1e604",
+      "source_feature_snapshot": {
+        "month": "2026-09",
+        "sha256": "6374869d3640d0e805d7f437f262c16e78a14c8ebfd50c611080fb04df14577d",
+        "package": "IIL-as-feature-snapshot.2026-09.tar.gz"
+      },
+      "tags": [
+        "Anycast",
+        "Tranco 10k Host",
+        "IPv6 Only",
+        "No Eyeball",
+        "No Transit",
+        "Sibling Transit",
+        "Public Transit",
+        "Any Presence",
+        "Domestic",
+        "Major Access",
+        "Global Transit Nth-ranked",
+        "Residential Access",
+        "Mobile/Cellular"
+      ],
+      "tag_counts": {
+        "Anycast": 6160,
+        "Tranco 10k Host": 23500,
+        "IPv6 Only": 7409,
+        "No Eyeball": 81548,
+        "No Transit": 109504,
+        "Sibling Transit": 762,
+        "Public Transit": 12042,
+        "Any Presence": 85934,
+        "Domestic": 76329,
+        "Major Access": 787,
+        "Global Transit Nth-ranked": 129,
+        "Residential Access": 24968,
+        "Mobile/Cellular": 124
+      },
+      "residential_access": {
+        "model_sha256": "5708bcdbe6907d76f491874709186a500ed43afdbb5b5cbe56e18a40a1934f98",
+        "model_snapshot": "2026-01",
+        "raw_threshold": 0.5,
+        "t_up": 0.7,
+        "t_down": 0.3,
+        "is_chain_anchor": false,
+        "prev_month_file": "predefined-tags.2026-08.json.gz",
+        "degraded_features": [],
+        "n_eyeball": 40760,
+        "n_raw_positive": 24697,
+        "n_state_reset": 1202
       },
       "mobile_cellular": {
         "label_version": "pun_v1_frozen_25seed_plus_audited_top99",
