@@ -7,7 +7,7 @@ name = "as-tagging"
 version = "2.0.0"
 description = "Toolkit to assign, retrieve, and customize tags for Autonomous Systems from monthly AS feature snapshots."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = "LicenseRef-IIL-AS-Tagging-AUA"
 license-files = ["LICENSE"]
 authors = [
